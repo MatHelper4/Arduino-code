@@ -1,0 +1,180 @@
+//Semafor 1
+const int S1cervena = 12;
+const int S1zluta = 11;
+const int S1zelena =10;
+//Semafor 2
+const int S2cervena = 9;
+const int S2zluta = 8;
+const int S2zelena = 7;
+
+const int S2cervenasipka = 12;
+const int S2zlutasipka = 13;
+const int S2zelenasipka = 7;
+//Semafor 3
+const int S3cervena = 6;
+const int S3zluta = 5;
+const int S3zelena = 4;
+
+const int S3sipka = 3;
+
+//chodec
+const int zelena = 19;
+const int cervena = 18;
+const int tlacitko = 2;
+
+bool stav = false;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(S1cervena, OUTPUT);
+  pinMode(S1zluta, OUTPUT);
+  pinMode(S1zelena, OUTPUT);
+
+  pinMode(S2cervena, OUTPUT);
+  pinMode(S2zluta, OUTPUT);
+  pinMode(S2zelena, OUTPUT);
+
+  pinMode(S2cervenasipka, OUTPUT);
+  pinMode(S2zlutasipka, OUTPUT);
+  pinMode(S2zelenasipka, OUTPUT);
+
+  pinMode(zelena, OUTPUT);
+  pinMode(cervena, OUTPUT);
+
+  pinMode(2, INPUT_PULLUP);
+
+  pinMode(S3cervena, OUTPUT);
+  pinMode(S3zluta, OUTPUT);
+  pinMode(S3zelena, OUTPUT);
+  pinMode(S3sipka, OUTPUT);
+
+  //setup
+  digitalWrite(S1cervena, HIGH);
+  digitalWrite(S2cervena, HIGH);
+  pinMode(S2cervenasipka, HIGH);
+  digitalWrite(S3cervena, HIGH);
+  digitalWrite(cervena, HIGH);
+  delay(1500);
+
+  attachInterrupt(digitalPinToInterrupt(2),Chodec , RISING);
+}
+
+void loop() {
+  //Semafor 1
+  digitalWrite(S1zluta, HIGH);
+  digitalWrite(S2zluta, HIGH);
+  delay(500);
+  digitalWrite(S1cervena, LOW);
+  digitalWrite(S1zluta, LOW);
+  digitalWrite(S1zelena, HIGH);
+  digitalWrite(S2cervena, LOW);
+  digitalWrite(S2zluta, LOW);
+  digitalWrite(S2zelena, HIGH);
+  digitalWrite(S3sipka, HIGH);
+  delay(1500);
+  digitalWrite(S1zelena, LOW);
+  digitalWrite(S1zluta, HIGH);
+  digitalWrite(S2zelena, LOW);
+  digitalWrite(S2zluta, HIGH);
+  digitalWrite(S3sipka, LOW);
+  delay(500);
+  digitalWrite(S1zluta, LOW);
+  digitalWrite(S1cervena, HIGH);
+  digitalWrite(S2zluta, LOW);
+  digitalWrite(S2cervena, HIGH);
+  delay(1000);
+
+
+  if (stav==true) {
+    Serial.println(stav);
+    //digitalWrite(S2zluta, HIGH);
+    digitalWrite(S2zlutasipka, HIGH);
+    digitalWrite(S3zluta, HIGH);
+    digitalWrite (cervena, LOW);
+    digitalWrite(zelena, HIGH);
+    delay(500);
+
+   // digitalWrite(S2cervena, LOW);
+   // digitalWrite(S2zluta, LOW);
+   // digitalWrite(S2zelena, HIGH);
+
+    digitalWrite(S2cervenasipka, LOW);
+    digitalWrite(S2zlutasipka, LOW);
+    digitalWrite(S2zelenasipka, HIGH);
+
+    digitalWrite(S3cervena, LOW);
+    digitalWrite(S3zluta, LOW);
+    digitalWrite(S3zelena, HIGH);
+
+    delay(1500);
+
+   // digitalWrite(S2zelena, LOW);
+  //  digitalWrite(S2zluta, HIGH);
+    digitalWrite(S2zelenasipka, LOW);
+    digitalWrite(S2zlutasipka, HIGH);
+    digitalWrite(S3zelena, LOW);
+    digitalWrite(S3zluta, HIGH);
+    delay(500);
+
+    //digitalWrite(S2zluta, LOW);
+   // digitalWrite(S2cervena, HIGH);
+    digitalWrite(S2zlutasipka, LOW);
+    digitalWrite(S2cervenasipka, HIGH);
+    digitalWrite(S3zluta, LOW);
+    digitalWrite(S3cervena, HIGH);
+
+    digitalWrite (cervena, HIGH);
+    digitalWrite(zelena, LOW);
+
+    delay(1000);
+    stav = false;
+  } else {
+    //Semafor 2
+    digitalWrite(S2zluta, HIGH);
+    digitalWrite(S2zlutasipka, HIGH);
+    digitalWrite(S3zluta, HIGH);
+    delay(500);
+
+    digitalWrite(S2cervena, LOW);
+    digitalWrite(S2zluta, LOW);
+    digitalWrite(S2zelena, HIGH);
+
+    digitalWrite(S2cervenasipka, LOW);
+    digitalWrite(S2zlutasipka, LOW);
+    digitalWrite(S2zelenasipka, HIGH);
+
+    digitalWrite(S3cervena, LOW);
+    digitalWrite(S3zluta, LOW);
+    digitalWrite(S3zelena, HIGH);
+
+    delay(1500);
+
+    digitalWrite(S2zelena, LOW);
+    digitalWrite(S2zluta, HIGH);
+    digitalWrite(S2zelenasipka, LOW);
+    digitalWrite(S2zlutasipka, HIGH);
+    digitalWrite(S3zelena, LOW);
+    digitalWrite(S3zluta, HIGH);
+    delay(500);
+
+    digitalWrite(S2zluta, LOW);
+    digitalWrite(S2cervena, HIGH);
+    digitalWrite(S2zlutasipka, LOW);
+    digitalWrite(S2cervenasipka, HIGH);
+    digitalWrite(S3zluta, LOW);
+    digitalWrite(S3cervena, HIGH);
+    delay(1000);
+  }
+}
+
+void Chodec() {
+
+  stav = true;
+}
+
+/*
+treti semafor vlozen do 1. a 2.
+pozn. tlacitko attach-interrupt funguje jen na digital read č. 2 a 3.
+
+
+*/
