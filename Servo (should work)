@@ -1,0 +1,81 @@
+const int JoysticcX =  A2;
+const int JoysticcY =  A3;
+const int JoysticcSW = 12;
+#include <Servo.h>
+Servo NS;
+const int IN1 = 5;
+const int IN2 = 4;
+const int IN3 = 3;
+const int IN4 = 2;
+int poloha = 80;
+int x,y, but;
+
+
+void setup() {
+ Serial.begin(9600);
+ NS.attach(6);
+ NS.write(poloha);
+ pinMode(JoysticcX, INPUT);
+ pinMode(JoysticcY, INPUT);
+ pinMode(JoysticcSW, INPUT_PULLUP);
+ pinMode(IN1, OUTPUT);
+ pinMode(IN2, OUTPUT);
+ pinMode(IN3, OUTPUT);
+pinMode(IN4, OUTPUT);
+
+}
+
+void loop() {
+  
+  x = analogRead(JoysticcX);
+  y = analogRead(JoysticcY);
+  but = digitalRead(JoysticcSW); 
+if(y<450){
+ RProtiSmeru();
+} else if(y>600){
+  RPoSmeru();
+}
+
+ if(x<450){
+  if(poloha <=179){
+    poloha++;
+ NS.write(poloha);
+ delay(40);
+ }
+ } else if(x>600){
+  if(poloha >= 1){
+    poloha--;
+  NS.write(poloha);
+  delay(40);
+  }
+ }
+
+
+  Serial.print("Osa X =");
+  Serial.print(x);
+  Serial.print("Osa Y =");
+  Serial.print(y);
+  Serial.print("Osa Z =");
+  Serial.println(but);
+
+}
+void RPoSmeru() {
+  krok(1,0,0,0);
+  krok(0,1,0,0);
+  krok(0,0,1,0);
+  krok(0,0,0,1);
+}
+void RProtiSmeru() {
+  krok(0,0,0,1);
+  krok(0,0,1,0);
+  krok(0,1,0,0);
+  krok(1,0,0,0);
+}
+
+void krok(int a, int b, int c, int d){
+digitalWrite(IN1, a);
+digitalWrite(IN2, b);
+digitalWrite(IN3, c);
+digitalWrite(IN4, d);
+delay(5);
+}
