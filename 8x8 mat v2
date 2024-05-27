@@ -1,0 +1,105 @@
+int katoda[] = { 2, 7, 19, 5, 13, 18, 12, 16 };
+int anoda[] = { 6, 11, 10, 3, 17, 4, 8, 9 };
+
+const int velikostPole = 28;
+//Začáteční pozice
+int pozice = 0;
+//Zobrazovany text
+const int napis[8][velikostPole] = {
+  { 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0 },
+  { 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+  { 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0 },
+  { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+  { 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0 },
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+};
+
+int timer = 150;
+
+void setup() {
+  //Nastavení pinModu a 
+  for (int i = 0; i < 8; i++) {
+    pinMode(anoda[i], OUTPUT);
+    pinMode(katoda[i], OUTPUT);
+    digitalWrite(anoda[i], LOW);
+    digitalWrite(katoda[i], HIGH);
+  }
+}
+void loop(){
+  for(int i= 0; i<70; i++)
+  vykreslovani();
+  pozice++; 
+//Aby se zabránilo přetečení int a pokažení vykreslování textu, tak se po dosažení hrany int pozice vynuluje
+  if(pozice >= velikostPole)
+  pozice=0;
+}
+
+void vykreslovani() {
+  for (int j = 0; j < 8; j++) {
+    digitalWrite(katoda[j], LOW);
+
+    for (int i = 0; i < 8; i++) {
+      digitalWrite(anoda[i], napis[i][(j + pozice) - abs((j + pozice) / velikostPole) * velikostPole]);
+      //delay(timer);
+    }
+
+    for (int i = 0; i < 8; i++) {
+      digitalWrite(anoda[i], LOW);
+      //delay(timer);
+    }
+    digitalWrite(katoda[j], HIGH);
+  }
+  /* //1.řádek
+  digitalWrite(katoda[0], LOW);
+
+for(int i =0; i<8; i++){
+digitalWrite(anoda[i], HIGH);
+delay(timer);
+}
+
+for(int i =0; i<8; i++){
+digitalWrite(anoda[i], LOW);
+delay(timer);
+}
+digitalWrite(katoda[0], HIGH);
+
+digitalWrite(katoda[1], LOW);
+
+for(int i =0; i<8; i++){
+digitalWrite(anoda[i], HIGH);
+delay(timer);
+
+}
+for(int i =0; i<8; i++){
+
+digitalWrite(anoda[i], LOW);
+delay(timer);
+}
+digitalWrite(katoda[1], HIGH);
+*/
+
+  /*
+  digitalWrite(katoda[0], LOW);
+
+  digitalWrite(anoda[1], HIGH);
+  digitalWrite(anoda[6], HIGH);
+
+  digitalWrite(anoda[1], LOW);
+  digitalWrite(anoda[6], LOW);
+  
+  digitalWrite(katoda[0], HIGH);
+  
+  digitalWrite(katoda[1], LOW);
+
+  digitalWrite(anoda[0], HIGH);
+  digitalWrite(anoda[4], HIGH);
+  digitalWrite(anoda[7], HIGH);
+
+  digitalWrite(anoda[0], LOW);
+  digitalWrite(anoda[4], LOW);
+  digitalWrite(anoda[7], LOW);
+  
+  digitalWrite(katoda[1], HIGH);*/
+}
